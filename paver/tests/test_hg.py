@@ -28,6 +28,10 @@ def test_update_with_revision(sh):
     assert sh.call_args[0][0] == "cd bar; hg update -r 120"
 
 @patch(hg, "sh")
+def test_branch(sh):
+    assert hg.branch("bar") == "default"
+
+@patch(hg, "sh")
 def test_branches(sh):
     branches = hg.branches("bar",
             include_closed=False,

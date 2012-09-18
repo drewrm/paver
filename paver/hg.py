@@ -15,6 +15,16 @@ def pull(dest):
 def update(dest, rev="tip"):
     sh("cd %(dest)s; hg update -r %(rev)s" % dict(dest=dest,rev=rev))
 
+def branch(dest):
+    output = sh("cd %(dest)s; hg branch" % dict(dest=dest))
+
+    if output == None:
+        current_branch = "default"
+    else:
+        current_branch = output.strip().split()[0]
+
+    return current_branch
+
 def branches(dest, include_closed=False, __override__=None):
     """ Get a list of branches as well as the current branch """
     closed_flag = ""
@@ -31,14 +41,6 @@ def branches(dest, include_closed=False, __override__=None):
 
     branches = []
     for line in output.split("\n"):
-        branch = line.strip().split()[0]
-        branches.append(branch)
+        branches.append(line.strip().split()[0])
 
-    output = None
-    output = sh("cd %(dest)s; hg branch" % dict(dest=dest))
-    if output == None:
-        current_branch = "default"
-    else:
-        current_branch = output.strip().split()[0]
-
-    return current_branch, branches
+    return branch(dest), branches
