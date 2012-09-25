@@ -2,7 +2,7 @@ from unittest2 import TestCase
 from os import chdir, getcwd, pardir, environ
 from os.path import join, dirname, exists
 from shutil import rmtree, copyfile
-from subprocess import check_call, PIPE
+from subprocess import check_call
 import sys
 from tempfile import mkdtemp
 
@@ -38,8 +38,6 @@ print branches
             f = open(pavement_file, "w")
             f.write(pavement_py)
             f.close
-            check_call(["paver", "-f", pavement_file],
-                    stdout=PIPE,
-                    stderr=PIPE)
+            check_call(["paver", "-f", pavement_file])
         finally:
             pass
